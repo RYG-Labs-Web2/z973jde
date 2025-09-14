@@ -20,7 +20,7 @@ export function Hero() {
 
   return (
     <div className="absolute inset-0 z-0 w-screen">
-      <Canvas className="w-full h-full" style={{ background: 'transparent' }}>
+      <Canvas className="w-full h-full" style={{ background: 'transparent', pointerEvents: 'none' }}>
         <ambientLight />
         <HeroScene />
       </Canvas>

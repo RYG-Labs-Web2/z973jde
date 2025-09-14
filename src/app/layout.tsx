@@ -1,7 +1,8 @@
 'use client';
 
-import { Geist, Geist_Mono, UnifrakturCook, STIX_Two_Text, Creepster } from "next/font/google";
+import { Geist, Geist_Mono, UnifrakturCook, STIX_Two_Text, Creepster, Holtwood_One_SC } from "next/font/google";
 import "./globals.css";
+import { Header } from './Header';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,16 +32,23 @@ const creepster = Creepster({
   display: "swap",
 });
 
+const holtwood = Holtwood_One_SC({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" >
+    <html lang="en" className="overflow-x-hidden" >
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${stixTwoText.className} ${unifrakturCook.className} ${creepster.className} antialiased`}
       >
+        <Header />
         {children}
       </body>
     </html>

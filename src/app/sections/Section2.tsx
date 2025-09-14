@@ -8,7 +8,7 @@ export function Section2() {
     const text = "In the deepest pit of the Crypto Underworld, where dead memes rot in endless FUD, a freak was born. Not of light, not of darkness, but from pure hatred, doubt, disdain and curses of humanity. Thus, ZERK – The FUD-Eater came to life.";
 
     return (
-        <section className="min-h-screen relative flex items-center justify-start pl-24 pr-8 bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden">
+        <section className="min-h-screen relative flex items-center justify-start pl-15 pr-8 bg-gradient-to-br from-black via-gray-900 to-black overflow-hidden">
             {/* Component đom đóm background */}
             <FireflyBackground
                 count={20}
@@ -40,7 +40,7 @@ export function Section2() {
                     transition={{ delay: 0.5, duration: 0.5 }}
                 >
                     <motion.p
-                        className="text-[36px] md:text-[42px] lg:text-[48px] leading-relaxed font-bold font-creepster gradient-text"
+                        className="text-4xl leading-relaxed font-bold font-holtwood gradient-text w-[80%]"
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{

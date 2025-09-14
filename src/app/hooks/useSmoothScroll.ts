@@ -15,6 +15,29 @@ export function useSmoothScroll() {
     const currentSectionRef = useRef<number>(0);
     const delayTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+    // Initialize current section based on scroll position
+    useEffect(() => {
+        const initializeSection = () => {
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeSection);
+                return;
+            }
+
+            const scrollY = window.pageYOffset;
+            const sectionHeight = window.innerHeight;
+            const initialSection = Math.round(scrollY / sectionHeight);
+            const clampedSection = Math.max(0, Math.min(initialSection, 3)); // 0-5 sections
+
+            setCurrentSection(clampedSection);
+            currentSectionRef.current = clampedSection;
+            console.log(`Initialized section to ${clampedSection} based on scroll position ${scrollY}`);
+        };
+
+        // Initialize immediately
+        initializeSection();
+    }, []);
+
     const scrollToSection = (sectionIndex: number) => {
         // Kiểm tra lock trước - phải check cả isScrolling và scrollLockRef
         if (isScrolling || scrollLockRef.current) {
@@ -61,7 +84,7 @@ export function useSmoothScroll() {
     };
 
     const scrollToNext = () => {
-        const maxSections = 4; // Tổng số section
+        const maxSections = 6; // Tổng số section
         const nextSection = Math.min(currentSectionRef.current + 1, maxSections - 1);
         console.log(`ScrollToNext: from ${currentSectionRef.current} to ${nextSection}`);
         scrollToSection(nextSection);
@@ -156,12 +179,13 @@ export function useSmoothScroll() {
             const scrollY = window.pageYOffset;
             const sectionHeight = window.innerHeight;
             const newSection = Math.round(scrollY / sectionHeight);
+            const clampedSection = Math.max(0, Math.min(newSection, 5));
 
             // Chỉ update nếu section thực sự thay đổi và trong phạm vi hợp lệ
-            if (newSection !== currentSection && newSection >= 0 && newSection < 4) {
-                console.log(`Section changed from ${currentSection} to ${newSection}`);
-                setCurrentSection(newSection);
-                currentSectionRef.current = newSection;
+            if (clampedSection !== currentSection && clampedSection >= 0 && clampedSection < 6) {
+                console.log(`Section changed from ${currentSection} to ${clampedSection}`);
+                setCurrentSection(clampedSection);
+                currentSectionRef.current = clampedSection;
             }
         };
 

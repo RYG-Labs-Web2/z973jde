@@ -58,15 +58,27 @@ export function Section4() {
         "You're a nobody!",
         "You're a zero!",
         "You're a disaster!",
-        "You're a mess!"
+        "You're a mess!",
+        "Next stop 0!",
+        "Dead project!",
+        "Exit pump!",
+        "No buyers!",
+        "Volume dead!",
+        "Floor next candle!",
+        "Rug soon!",
+        "No roadmap!",
+        "Dev printing jeet bags!",
+        "Minted to zero!",
+        "Rekt incoming!",
+        "Holders coping!",
     ], []);
 
     // Danh sách hình ảnh Zerk - memoized để tránh re-render
     const zerkImages = useMemo(() => [
-        "/img/Zerk.png",
+        "/img/zerk.png",
         "/img/1.png",
-        "/img/2.png",
-        "/img/3.png"
+        "/img/zerk-lv3.png",
+        "/img/zerk-lv4.png"
     ], []);
 
     // Tạo các câu chửi rải rác toàn màn hình
@@ -114,6 +126,7 @@ export function Section4() {
         setZerkSize(1);
         setZerkImageIndex(0);
         setClickCount(0);
+
         generateSwearWords();
     };
 
@@ -132,6 +145,15 @@ export function Section4() {
         }
         setParticles(prev => [...prev, ...newParticles]);
     }, []);
+
+    useEffect(() => {
+        if (clickCount >= 20) {
+            setZerkImageIndex(prevIndex => (prevIndex + 1) % zerkImages.length);
+            createParticles(window.innerWidth / 2, window.innerHeight / 2);
+            setZerkSize(1);
+            setClickCount(0);
+        }
+    }, [clickCount, zerkImages.length, createParticles]);
 
     // Xử lý khi nhấn vào câu chửi
     const handleSwearWordClick = (id: number) => {
@@ -153,29 +175,7 @@ export function Section4() {
         );
 
         setScore(prev => prev + 1);
-
-        // Tăng click count và xử lý logic
-        setClickCount(prev => {
-            const newCount = prev + 1;
-
-            // Tăng kích thước dựa trên số lần click hiện tại
-            const newSize = 1 + (newCount * 0.2); // Tăng 0.2 mỗi lần click, max 1.8
-            setZerkSize(Math.min(newSize, 1.8));
-
-            // Mỗi 5 lần click thì đổi con và reset
-            if (newCount >= 5) {
-                setZerkImageIndex(prevIndex => {
-                    const nextIndex = (prevIndex + 1) % 4; // Loop từ 0-3
-                    return nextIndex;
-                });
-                // Tạo hiệu ứng evolution
-                createParticles(window.innerWidth / 2, window.innerHeight / 2);
-                setZerkSize(1); // Reset size về 1
-                return 0; // Reset click count
-            }
-
-            return newCount;
-        });
+        setClickCount(prev => prev + 1);
 
         // Ẩn câu chửi sau 300ms (thời gian hiệu ứng)
         setTimeout(() => {
@@ -219,7 +219,7 @@ export function Section4() {
         }, 500);
     };
 
-    // Timer
+
     useEffect(() => {
         if (!gameStarted || gameEnded) return;
 
@@ -296,11 +296,11 @@ export function Section4() {
             <div className="absolute top-4 left-4 z-10 text-white">
                 <div className="text-2xl font-bold mb-2">Score: {score}</div>
                 <div className="text-xl mb-2">Time: {timeLeft}s</div>
-                <div className="text-lg">Evolution: {clickCount}/5</div>
+                <div className="text-lg">Evolution: {clickCount}/20</div>
                 <div className="w-32 h-2 bg-gray-700 rounded-full mt-1">
                     <div
                         className="h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full transition-all duration-300"
-                        style={{ width: `${(clickCount / 5) * 100}%` }}
+                        style={{ width: `${(clickCount / 20) * 100}%` }}
                     ></div>
                 </div>
             </div>
